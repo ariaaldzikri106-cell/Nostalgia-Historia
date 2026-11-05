@@ -1,220 +1,369 @@
 <!DOCTYPE html>
-  <!-- Brand Logo -->
-  <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('timeline')">
-    <div class="w-10 h-10 rounded-full bg-vintage-brown text-[#FDF8F0] flex items-center justify-center font-serif text-xl font-bold shadow-md">
-      <i class="fa-solid fa-train text-base"></i>
-    </div>
-    <span class="font-serif font-bold text-xl sm:text-2xl tracking-tight text-vintage-brown">
-      Nostalgia Historia
-    </span>
-  </div>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nostalgia Historia - Stasiun Tuntang</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        vintage: {
+                            brown: '#3B2F2F',
+                            brownLight: '#5C4A4A',
+                            gold: '#D4AF37',
+                            card: '#F4ECE1',
+                            cardHover: '#EBE0D0',
+                            border: '#D3C5B4',
+                            textPrimary: '#2C221E',
+                            textSecondary: '#6B5B53',
+                            accent: '#8B4513'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .vintage-shadow { box-shadow: 0 10px 25px -5px rgba(59, 47, 47, 0.08), 0 8px 10px -6px rgba(59, 47, 47, 0.08); }
+        .vintage-shadow-lg { box-shadow: 0 20px 35px -10px rgba(43, 29, 27, 0.4); }
+        [contenteditable="true"]:hover { outline: 2px dashed #D4AF37; outline-offset: 4px; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-[#FDF8F0] text-vintage-textPrimary min-h-screen flex flex-col font-sans selection:bg-vintage-gold/30">
 
-  <!-- Navigation Tabs -->
-  <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-vintage-textSecondary">
-    <button id="nav-stories" onclick="switchView('timeline')" class="flex items-center gap-2 hover:text-vintage-brown transition-colors text-vintage-brown font-semibold">
-      <i class="fa-regular fa-compass"></i> Stories
-    </button>
-    <button id="nav-quiz" onclick="switchView('quiz')" class="flex items-center gap-2 hover:text-vintage-brown transition-colors">
-      <i class="fa-solid fa-graduation-cap"></i> Kuis Sejarah
-    </button>
-    <button id="nav-ppt" onclick="startPresentationMode()" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-vintage-gold/20 text-vintage-brown hover:bg-vintage-gold/30 transition-all font-semibold">
-      <i class="fa-solid fa-desktop"></i> Mode PPT Interaktif
-    </button>
-  </nav>
+    <!-- HEADER -->
+    <header class="sticky top-0 z-40 bg-[#FDF8F0]/90 backdrop-blur-md border-b border-vintage-border shadow-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('timeline')">
+                <div class="w-10 h-10 rounded-full bg-vintage-brown text-[#FDF8F0] flex items-center justify-center font-serif text-xl font-bold shadow-md">
+                    <i class="fa-solid fa-train text-base"></i>
+                </div>
+                <span class="font-serif font-bold text-xl sm:text-2xl tracking-tight text-vintage-brown">
+                    Nostalgia Historia
+                </span>
+            </div>
 
-  <!-- Right Actions -->
-  <div class="flex items-center gap-3">
-    <button onclick="toggleSearchModal()" title="Cari Arsip" class="p-2 text-vintage-textSecondary hover:text-vintage-brown transition-colors rounded-full hover:bg-vintage-card">
-      <i class="fa-solid fa-magnifying-glass text-lg"></i>
-    </button>
-    <button onclick="resetAllData()" title="Reset ke Data Asli" class="p-2 text-vintage-textSecondary hover:text-rose-700 transition-colors rounded-full hover:bg-vintage-card text-xs">
-      <i class="fa-solid fa-rotate-right text-base"></i>
-    </button>
-    <div class="w-9 h-9 rounded-full bg-vintage-brown text-white text-xs font-bold flex items-center justify-center border-2 border-vintage-border shadow-sm">
-      ST
-    </div>
-  </div>
-</div>
-<!-- VIEW 1: TIMELINE HOME -->
-<section id="view-timeline" class="space-y-12">
-  
-  <!-- Hero Header Section (Fully Editable via contenteditable) -->
-  <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-4">
-    <div class="max-w-3xl space-y-3">
-      <span class="text-xs font-bold uppercase tracking-wider text-vintage-accent bg-vintage-accent/10 px-3 py-1 rounded-full border border-vintage-accent/20">
-        Mode Edit Aktif (Klik teks di bawah untuk mengubah langsung)
-      </span>
-      <h1 id="editable-hero-title" contenteditable="true" onblur="saveHeroData()" class="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold text-vintage-textPrimary leading-tight editable-field" title="Klik untuk mengedit judul">
-        Every track has a story worth remembering.
-      </h1>
-      <p id="editable-hero-desc" contenteditable="true" onblur="saveHeroData()" class="text-base sm:text-lg text-vintage-textSecondary font-light leading-relaxed editable-field" title="Klik untuk mengedit deskripsi">
-        Menelusuri jejak langkah, memori arsitektur kolonial, dan perjalanan emas Stasiun Tuntang dari masa Nederlandsch-Indische Spoorweg Maatschappij (NIS) hingga era modern.
-      </p>
-    </div>
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-vintage-textSecondary">
+                <button id="nav-stories" onclick="switchView('timeline')" class="flex items-center gap-2 hover:text-vintage-brown transition-colors text-vintage-brown font-semibold">
+                    <i class="fa-regular fa-compass"></i> Stories
+                </button>
+                <button id="nav-quiz" onclick="switchView('quiz')" class="flex items-center gap-2 hover:text-vintage-brown transition-colors">
+                    <i class="fa-solid fa-graduation-cap"></i> Kuis Sejarah
+                </button>
+                <button id="nav-ppt" onclick="startPresentationMode()" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-vintage-gold/20 text-vintage-brown hover:bg-vintage-gold/30 transition-all font-semibold">
+                    <i class="fa-solid fa-desktop"></i> Mode PPT Interaktif
+                </button>
+            </nav>
 
-    <!-- Action Buttons -->
-    <div class="flex flex-wrap items-center gap-3">
-      <button onclick="openAddStoryModal()" class="px-5 py-3 bg-vintage-brown hover:bg-vintage-brownLight text-[#FDF8F0] font-medium rounded-xl shadow-md transition-all flex items-center gap-2">
-        <i class="fa-solid fa-plus text-sm"></i> Tambah Cerita Baru
-      </button>
-      <button onclick="startPresentationMode()" class="px-5 py-3 bg-vintage-card border border-vintage-border hover:bg-vintage-cardHover text-vintage-brown font-medium rounded-xl transition-all flex items-center gap-2">
-        <i class="fa-solid fa-play text-sm"></i> Putar PPT
-      </button>
-    </div>
-  </div>
+            <div class="flex items-center gap-3">
+                <button onclick="toggleSearchModal()" title="Cari Arsip" class="p-2 text-vintage-textSecondary hover:text-vintage-brown transition-colors rounded-full hover:bg-vintage-card">
+                    <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                </button>
+                <button onclick="resetAllData()" title="Reset ke Data Asli" class="p-2 text-vintage-textSecondary hover:text-rose-700 transition-colors rounded-full hover:bg-vintage-card text-xs">
+                    <i class="fa-solid fa-rotate-right text-base"></i>
+                </button>
+                <div class="w-9 h-9 rounded-full bg-vintage-brown text-white text-xs font-bold flex items-center justify-center border-2 border-vintage-border shadow-sm">
+                    ST
+                </div>
+            </div>
+        </div>
+    </header>
 
-  <!-- TIMELINE ERA FILTER BAR -->
-  <div class="relative pt-4 pb-2">
-    <div class="hidden sm:block absolute top-10 left-0 right-0 h-0.5 bg-vintage-border z-0"></div>
-    <div class="relative z-10 flex items-center gap-3 sm:gap-4 overflow-x-auto pb-4 no-scrollbar">
-      <button onclick="filterEra('all')" class="era-btn active-era px-5 py-2.5 rounded-xl font-medium text-sm transition-all whitespace-nowrap border border-vintage-border shadow-sm flex items-center gap-2 bg-vintage-brown text-white">
-        <span class="w-2 h-2 rounded-full bg-vintage-gold"></span> Semua Era
-      </button>
-      <button onclick="filterEra('1870s')" class="era-btn px-5 py-2.5 rounded-xl font-medium text-sm transition-all whitespace-nowrap border border-vintage-border bg-vintage-card text-vintage-textPrimary hover:bg-vintage-cardHover">
-        1870-an
-      </button>
-      <button onclick="filterEra('1910s')" class="era-btn px-5 py-2.5 rounded-xl font-medium text-sm transition-all whitespace-nowrap border border-vintage-border bg-vintage-card text-vintage-textPrimary hover:bg-vintage-cardHover">
-        1910-an
-      </button>
-      <button onclick="filterEra('1940s')" class="era-btn px-5 py-2.5 rounded-xl font-medium text-sm transition-all whitespace-nowrap border border-vintage-border bg-vintage-card text-vintage-textPrimary hover:bg-vintage-cardHover">
-        1940-an
-      </button>
-      <button onclick="filterEra('1970s')" class="era-btn px-5 py-2.5 rounded-xl font-medium text-sm transition-all whitespace-nowrap border border-vintage-border bg-vintage-card text-vintage-textPrimary hover:bg-vintage-cardHover">
-        1970-an
-      </button>
-      <button onclick="filterEra('2000s')" class="era-btn px-5 py-2.5 rounded-xl font-medium text-sm transition-all whitespace-nowrap border border-vintage-border bg-vintage-card text-vintage-textPrimary hover:bg-vintage-cardHover">
-        2000-an - Sekarang
-      </button>
-    </div>
-  </div>
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <!-- VIEW 1: TIMELINE HOME -->
+        <section id="view-timeline" class="space-y-12">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-4">
+                <div class="max-w-3xl space-y-3">
+                    <span class="text-xs font-bold uppercase tracking-wider text-vintage-accent bg-vintage-accent/10 px-3 py-1 rounded-full border border-vintage-accent/20">
+                        Mode Edit Aktif (Klik teks di bawah untuk mengubah langsung)
+                    </span>
+                    <h1 id="editable-hero-title" contenteditable="true" onblur="saveHeroData()" class="font-serif text-3xl sm:text-5xl lg:text-6xl font-extrabold text-vintage-textPrimary leading-tight editable-field" title="Klik untuk mengedit judul">
+                        Every track has a story worth remembering.
+                    </h1>
+                    <p id="editable-hero-desc" contenteditable="true" onblur="saveHeroData()" class="text-base sm:text-lg text-vintage-textSecondary font-light leading-relaxed editable-field" title="Klik untuk mengedit deskripsi">
+                        Menelusuri jejak langkah, memori arsitektur kolonial, dan perjalanan emas Stasiun Tuntang dari masa Nederlandsch-Indische Spoorweg Maatschappij (NIS) hingga era modern.
+                    </p>
+                </div>
+                <div class="flex flex-wrap items-center gap-3">
+                    <button onclick="openAddStoryModal()" class="px-5 py-3 bg-vintage-brown hover:bg-vintage-brownLight text-[#FDF8F0] font-medium rounded-xl shadow-md transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-plus text-sm"></i> Tambah Cerita Baru
+                    </button>
+                    <button onclick="startPresentationMode()" class="px-5 py-3 bg-vintage-card border border-vintage-border hover:bg-vintage-cardHover text-vintage-brown font-medium rounded-xl transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-play text-sm"></i> Putar PPT
+                    </button>
+                </div>
+            </div>
 
-  <!-- STORIES SECTION HEADER -->
-  <div class="flex items-center justify-between border-b border-vintage-border/60 pb-3">
-    <div>
-      <h2 class="font-serif text-2xl font-bold text-vintage-textPrimary">Stories from the archive</h2>
-      <p id="era-counter-label" class="text-xs text-vintage-textSecondary">Menampilkan semua koleksi arsip sejarah</p>
-    </div>
-    <span class="text-xs font-semibold uppercase tracking-wider text-vintage-textSecondary bg-vintage-card px-3 py-1 rounded-full border border-vintage-border">
-      Sepenuhnya Dapat Diedit
-    </span>
-  </div>
+            <!-- TIMELINE ERA FILTER BAR -->
+            <div class="relative pt-4 pb-2">
+                <div class="hidden sm:block absolute top-10 left-0 right-0 h-0.5 bg-vintage-border z-0"></div>
+                <div class="relative z-10 flex items-center gap-3 sm:gap-4 overflow-x-auto pb-4 no-scrollbar">
+                    <button onclick="filterEra('all')" class="era-btn active-era px-5 py-2.5 rounded-xl font-medium text-sm transition-all whitespace-nowrap border border-vintage-border shadow-sm flex items-center gap-2 bg-vintage-brown text-white">
+                        <span class="w-2 h-2 rounded-full bg-vintage-gold"></span> Semua Era
+                    </button>
+                    <button onclick="filterEra('1870s')" class="era-btn px-5 py-2.5 rounded-xl font-medium text-sm transition-all whitespace-nowrap border border-vintage-border bg-vintage-card text-vintage-textPrimary hover:bg-vintage-cardHover">
+                        1870-an
+                    </button>
+                    <button onclick="filterEra('1910s')" class="era-btn px-5 py-2.5 rounded-xl font-medium text-sm transition-all whitespace-nowrap border border-vintage-border bg-vintage-card text-vintage-textPrimary hover:bg-vintage-cardHover">
+                        1910-an
+                    </button>
+                    <button onclick="filterEra('1940s')" class="era-btn px-5 py-2.5 rounded-xl font-medium text-sm transition-all whitespace-nowrap border border-vintage-border bg-vintage-card text-vintage-textPrimary hover:bg-vintage-cardHover">
+                        1940-an
+                    </button>
+                    <button onclick="filterEra('1970s')" class="era-btn px-5 py-2.5 rounded-xl font-medium text-sm transition-all whitespace-nowrap border border-vintage-border bg-vintage-card text-vintage-textPrimary hover:bg-vintage-cardHover">
+                        1970-an
+                    </button>
+                    <button onclick="filterEra('2000s')" class="era-btn px-5 py-2.5 rounded-xl font-medium text-sm transition-all whitespace-nowrap border border-vintage-border bg-vintage-card text-vintage-textPrimary hover:bg-vintage-cardHover">
+                        2000-an - Sekarang
+                    </button>
+                </div>
+            </div>
 
-  <!-- STORIES GRID -->
-  <div id="stories-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-    <!-- Rendered via JavaScript -->
-  </div>
+            <!-- STORIES SECTION HEADER -->
+            <div class="flex items-center justify-between border-b border-vintage-border/60 pb-3">
+                <div>
+                    <h2 class="font-serif text-2xl font-bold text-vintage-textPrimary">Stories from the archive</h2>
+                    <p id="era-counter-label" class="text-xs text-vintage-textSecondary">Menampilkan semua koleksi arsip sejarah</p>
+                </div>
+                <span class="text-xs font-semibold uppercase tracking-wider text-vintage-textSecondary bg-vintage-card px-3 py-1 rounded-full border border-vintage-border">
+                    Sepenuhnya Dapat Diedit
+                </span>
+            </div>
 
-  <!-- EMPTY STATE -->
-  <div id="empty-state" class="hidden text-center py-16 px-4 bg-vintage-card/50 rounded-2xl border-2 border-dashed border-vintage-border">
-    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-vintage-border/50 flex items-center justify-center text-vintage-brown">
-      <i class="fa-regular fa-calendar-xmark text-2xl"></i>
-    </div>
-    <h3 class="font-serif text-xl font-bold text-vintage-textPrimary mb-2">Belum ada arsip di era ini</h3>
-    <p class="text-sm text-vintage-textSecondary max-w-md mx-auto mb-6">Tambahkan kisah atau dokumen sejarah baru untuk era ini menggunakan tombol di bawah.</p>
-    <button onclick="openAddStoryModal()" class="px-4 py-2 bg-vintage-brown text-white text-sm font-medium rounded-lg">
-      + Tambah Kisah Baru
-    </button>
-  </div>
+            <!-- STORIES GRID -->
+            <div id="stories-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                <!-- Rendered via JavaScript -->
+            </div>
 
-</section>
+            <!-- EMPTY STATE -->
+            <div id="empty-state" class="hidden text-center py-16 px-4 bg-vintage-card/50 rounded-2xl border-2 border-dashed border-vintage-border">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-vintage-border/50 flex items-center justify-center text-vintage-brown">
+                    <i class="fa-regular fa-calendar-xmark text-2xl"></i>
+                </div>
+                <h3 class="font-serif text-xl font-bold text-vintage-textPrimary mb-2">Belum ada arsip di era ini</h3>
+                <p class="text-sm text-vintage-textSecondary max-w-md mx-auto mb-6">Tambahkan kisah atau dokumen sejarah baru untuk era ini menggunakan tombol di bawah.</p>
+                <button onclick="openAddStoryModal()" class="px-4 py-2 bg-vintage-brown text-white text-sm font-medium rounded-lg">
+                    + Tambah Kisah Baru
+                </button>
+            </div>
+        </section>
 
-<!-- VIEW 2: KUIS SEJARAH -->
-<section id="view-quiz" class="hidden space-y-8 max-w-4xl mx-auto">
-  <div class="text-center space-y-3">
-    <span class="px-3 py-1 bg-vintage-gold/20 text-vintage-brown rounded-full text-xs font-bold uppercase tracking-wider">
-      Uji Pengetahuan Anda
-    </span>
-    <h1 class="font-serif text-3xl sm:text-4xl font-bold text-vintage-textPrimary">
-      Kuis Interaktif Sejarah Stasiun Tuntang
-    </h1>
-    <p class="text-sm sm:text-base text-vintage-textSecondary max-w-xl mx-auto">
-      Uji pemahaman Anda mengenai sejarah, pembangunan, dan transformasi stasiun bersejarah di tepi Rawa Pening ini.
-    </p>
-  </div>
+        <!-- VIEW 2: KUIS SEJARAH -->
+        <section id="view-quiz" class="hidden space-y-8 max-w-4xl mx-auto">
+            <div class="text-center space-y-3">
+                <span class="px-3 py-1 bg-vintage-gold/20 text-vintage-brown rounded-full text-xs font-bold uppercase tracking-wider">
+                    Uji Pengetahuan Anda
+                </span>
+                <h1 class="font-serif text-3xl sm:text-4xl font-bold text-vintage-textPrimary">
+                    Kuis Interaktif Sejarah Stasiun Tuntang
+                </h1>
+                <p class="text-sm sm:text-base text-vintage-textSecondary max-w-xl mx-auto">
+                    Uji pemahaman Anda mengenai sejarah, pembangunan, dan transformasi stasiun bersejarah di tepi Rawa Pening ini.
+                </p>
+            </div>
 
-  <div class="bg-vintage-card rounded-2xl p-6 sm:p-10 border border-vintage-border vintage-shadow space-y-6">
-    <div class="flex items-center justify-between text-sm font-medium text-vintage-textSecondary border-b border-vintage-border pb-4">
-      <span id="quiz-progress-text">Pertanyaan 1 dari 3</span>
-      <span id="quiz-score-text" class="text-vintage-brown font-bold">Skor: 0</span>
-    </div>
+            <div class="bg-vintage-card rounded-2xl p-6 sm:p-10 border border-vintage-border vintage-shadow space-y-6">
+                <div class="flex items-center justify-between text-sm font-medium text-vintage-textSecondary border-b border-vintage-border pb-4">
+                    <span id="quiz-progress-text">Pertanyaan 1 dari 3</span>
+                    <span id="quiz-score-text" class="text-vintage-brown font-bold">Skor: 0</span>
+                </div>
 
-    <div id="quiz-content" class="space-y-6">
-      <h3 id="quiz-question" class="font-serif text-xl sm:text-2xl font-bold text-vintage-textPrimary leading-snug"></h3>
-      <div id="quiz-options" class="grid grid-cols-1 gap-3"></div>
-    </div>
+                <div id="quiz-content" class="space-y-6">
+                    <h3 id="quiz-question" class="font-serif text-xl sm:text-2xl font-bold text-vintage-textPrimary leading-snug"></h3>
+                    <div id="quiz-options" class="grid grid-cols-1 gap-3"></div>
+                </div>
 
-    <div id="quiz-feedback" class="hidden p-4 rounded-xl text-sm font-medium flex items-center justify-between">
-      <span id="feedback-text"></span>
-      <button id="next-quiz-btn" onclick="nextQuestion()" class="px-4 py-2 bg-vintage-brown text-white rounded-lg text-xs font-semibold hover:bg-vintage-brownLight transition-all">
-        Lanjut <i class="fa-solid fa-arrow-right ml-1"></i>
-      </button>
-    </div>
-  </div>
-</section>
-  <button onclick="closeStoryModal()" class="absolute top-4 right-4 text-vintage-textSecondary hover:text-vintage-brown">
-    <i class="fa-solid fa-xmark text-xl"></i>
-  </button>
+                <div id="quiz-feedback" class="hidden p-4 rounded-xl text-sm font-medium flex items-center justify-between">
+                    <span id="feedback-text"></span>
+                    <button id="next-quiz-btn" onclick="nextQuestion()" class="px-4 py-2 bg-vintage-brown text-white rounded-lg text-xs font-semibold hover:bg-vintage-brownLight transition-all">
+                        Lanjut <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
 
-  <h3 id="modal-title" class="font-serif text-2xl font-bold text-vintage-textPrimary mb-2">Tambah Cerita Arsip</h3>
-  <p class="text-xs text-vintage-textSecondary mb-6">Sesuaikan detail informasi, tahun, dan gambar arsip Stasiun Tuntang.</p>
+    <!-- FOOTER -->
+    <footer class="bg-vintage-brown text-[#FDF8F0]/80 py-8 border-t border-vintage-border mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs space-y-2">
+            <p>Nostalgia Historia — Web Interaktif Sejarah Stasiun Tuntang</p>
+            <p class="text-vintage-gold/80">Dibangun dengan sistem penyimpanan lokal (localStorage) dan desain vintage kolonial.</p>
+        </div>
+    </footer>
 
-  <form id="story-form" onsubmit="handleSaveStory(event)" class="space-y-4">
-    <input type="hidden" id="input-id" />
-    
-    <div>
-      <label class="block text-xs font-semibold text-vintage-textPrimary mb-1">Judul Peristiwa</label>
-      <input type="text" id="input-title" required placeholder="Contoh: Peresmian Jalur NIS" class="w-full px-3 py-2 bg-white border border-vintage-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-vintage-brown" />
-    </div>
+    <!-- SCRIPT UTAMA APLIKASI -->
+    <script>
+        // Data Arsip Default
+        const defaultStories = [
+            { id: 1, title: "Peresmian Jalur Kereta NIS", year: 1871, era: "1870s", desc: "Nederlandsch-Indische Spoorweg Maatschappij (NIS) meresmikan jalur kereta api yang menghubungkan Semarang hingga Ambarawa, melewati Stasiun Tuntang.", img: "https://images.unsplash.com/photo-1515165562839-978bbcfc926e?auto=format&fit=crop&w=800&q=80" },
+            { id: 2, title: "Arsitektur Kolonial & Rawa Pening", year: 1912, era: "1910s", desc: "Stasiun Tuntang menjadi titik transit strategis bagi komoditas perkebunan sekaligus primadona panorama alam karena lokasinya yang berdampingan langsung dengan Rawa Pening.", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" },
+            { id: 3, title: "Masa Pendudukan & Operasional Darurat", year: 1942, era: "1940s", desc: "Di bawah kendali militer Jepang, jalur dan stasiun difungsikan untuk mobilisasi logistik dan militer strategis di wilayah pedalaman Jawa Tengah.", img: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=800&q=80" },
+            { id: 4, title: "Era Keemasan Angkutan Kayu & Penumpang", year: 1975, era: "1970s", desc: "Kereta uap dan diesel lokal rutin melayani mobilitas warga lokal serta pengangkutan hasil bumi sebelum perlahan beralih ke moda jalan raya.", img: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80" },
+            { id: 5, title: "Revitalisasi Wisata Sejarah Modern", year: 2020, era: "2000s", desc: "Stasiun Tuntang bertransformasi menjadi ikon wisata sejarah kereta api antik dan destinasi edukasi heritage terpadu di Kabupaten Semarang.", img: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80" }
+        ];
 
-    <div class="grid grid-cols-2 gap-3">
-      <div>
-        <label class="block text-xs font-semibold text-vintage-textPrimary mb-1">Tahun (Angka)</label>
-        <input type="number" id="input-year" min="1800" max="2030" required placeholder="1871" class="w-full px-3 py-2 bg-white border border-vintage-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-vintage-brown" />
-      </div>
-      <div>
-        <label class="block text-xs font-semibold text-vintage-textPrimary mb-1">Kategori Era</label>
-        <select id="input-era" class="w-full px-3 py-2 bg-white border border-vintage-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-vintage-brown">
-          <option value="1870s">1870-an</option>
-          <option value="1910s">1910-an</option>
-          <option value="1940s">1940-an</option>
-          <option value="1970s">1970-an</option>
-          <option value="2000s">2000-an - Sekarang</option>
-        </select>
-      </div>
-    </div>
+        let stories = JSON.parse(localStorage.getItem('tuntang_stories')) || defaultStories;
+        let currentEra = 'all';
 
-    <div>
-      <label class="block text-xs font-semibold text-vintage-textPrimary mb-1">Deskripsi / Penjelasan Sejarah</label>
-      <textarea id="input-desc" rows="3" required placeholder="Tuliskan catatan sejarah..." class="w-full px-3 py-2 bg-white border border-vintage-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-vintage-brown"></textarea>
-    </div>
+        function renderStories() {
+            const grid = document.getElementById('stories-grid');
+            const emptyState = document.getElementById('empty-state');
+            const filtered = currentEra === 'all' ? stories : stories.filter(s => s.era === currentEra);
 
-    <div>
-      <label class="block text-xs font-semibold text-vintage-textPrimary mb-1">URL Gambar / Foto Arsip</label>
-      <input type="url" id="input-img" placeholder="https://images.unsplash.com/..." class="w-full px-3 py-2 bg-white border border-vintage-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-vintage-brown" />
-    </div>
+            grid.innerHTML = '';
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            emptyState.classList.add('hidden');
 
-    <div class="flex items-center justify-end gap-3 pt-4 border-t border-vintage-border">
-      <button type="button" onclick="closeStoryModal()" class="px-4 py-2 text-xs font-semibold text-vintage-textSecondary hover:text-vintage-brown">
-        Batal
-      </button>
-      <button type="submit" class="px-5 py-2 bg-vintage-brown text-white text-xs font-semibold rounded-lg hover:bg-vintage-brownLight shadow">
-        Simpan Perubahan
-      </button>
-    </div>
-  </form>
-</div>
-<div class="flex-grow flex items-center justify-center py-6">
-  <div id="ppt-slide-container" class="w-full max-w-5xl bg-[#281D1B] border border-white/10 rounded-2xl p-6 sm:p-12 vintage-shadow-lg min-h-[420px] flex flex-col justify-between transition-all"></div>
-</div>
+            filtered.forEach(story => {
+                grid.innerHTML += `
+                    <div class="bg-vintage-card rounded-2xl overflow-hidden border border-vintage-border vintage-shadow flex flex-col justify-between transition-all hover:-translate-y-1">
+                        <div>
+                            <div class="h-48 overflow-hidden relative">
+                                <img src="${story.img || 'https://images.unsplash.com/photo-1515165562839-978bbcfc926e?auto=format&fit=crop&w=800&q=80'}" class="w-full h-full object-cover" alt="${story.title}">
+                                <span class="absolute top-3 left-3 bg-vintage-brown text-white text-xs font-bold px-3 py-1 rounded-full shadow">${story.year}</span>
+                            </div>
+                            <div class="p-6 space-y-2">
+                                <h3 class="font-serif text-xl font-bold text-vintage-textPrimary">${story.title}</h3>
+                                <p class="text-sm text-vintage-textSecondary leading-relaxed">${story.desc}</p>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-vintage-border/40 text-xs">
+                            <span class="text-vintage-accent font-semibold uppercase">Era ${story.era}</span>
+                            <button onclick="deleteStory(${story.id})" class="text-rose-700 hover:underline font-medium">Hapus</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
 
-<div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/10 pt-4 text-xs text-gray-400">
-  <span>Gunakan Panah Kiri/Kanan (<kbd class="px-1.5 py-0.5 bg-white/10 rounded">←</kbd> <kbd class="px-1.5 py-0.5 bg-white/10 rounded">→</kbd>) untuk navigasi slide</span>
-  <div class="flex items-center gap-3">
-    <button onclick="prevSlide()" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg font-medium transition-colors">
-      <i class="fa-solid fa-chevron-left"></i> Sebelumnya
-    </button>
-    <button onclick="nextSlide()" class="px-4 py-2 bg-vintage-gold hover:bg-yellow-500 text-vintage-brown font-bold rounded-lg transition-colors">
-      Selanjutnya <i class="fa-solid fa-chevron-right"></i>
-    </button>
-  </div>
-</div>
+        function filterEra(era) {
+            currentEra = era;
+            document.querySelectorAll('.era-btn').forEach(btn => {
+                btn.classList.remove('bg-vintage-brown', 'text-white');
+                btn.classList.add('bg-vintage-card', 'text-vintage-textPrimary');
+            });
+            event.currentTarget.classList.remove('bg-vintage-card', 'text-vintage-textPrimary');
+            event.currentTarget.classList.add('bg-vintage-brown', 'text-white');
+            renderStories();
+        }
+
+        function switchView(view) {
+            if (view === 'timeline') {
+                document.getElementById('view-timeline').classList.remove('hidden');
+                document.getElementById('view-quiz').classList.add('hidden');
+            } else if (view === 'quiz') {
+                document.getElementById('view-timeline').classList.add('hidden');
+                document.getElementById('view-quiz').classList.remove('hidden');
+                initQuiz();
+            }
+        }
+
+        // Quiz Logic
+        const quizData = [
+            { q: "Kapan jalur kereta api NIS yang melewati Stasiun Tuntang diresmikan?", options: ["1871", "1905", "1945"], correct: 0 },
+            { q: "Rawa apakah yang terletak persis di dekat Stasiun Tuntang?", options: ["Rawa Pening", "Rawa Belong", "Rawa Danau"], correct: 0 },
+            { q: "Perusahaan kolonial apa yang awalnya membangun jalur kereta di wilayah ini?", options: ["NIS", "SS", "DJS"], correct: 0 }
+        ];
+        let currentQuiz = 0, score = 0;
+
+        function initQuiz() {
+            currentQuiz = 0; score = 0;
+            loadQuizQuestion();
+        }
+
+        function loadQuizQuestion() {
+            const q = quizData[currentQuiz];
+            document.getElementById('quiz-progress-text').innerText = `Pertanyaan ${currentQuiz + 1} dari ${quizData.length}`;
+            document.getElementById('quiz-score-text').innerText = `Skor: ${score}`;
+            document.getElementById('quiz-question').innerText = q.q;
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            
+            const optDiv = document.getElementById('quiz-options');
+            optDiv.innerHTML = '';
+            q.options.forEach((opt, idx) => {
+                optDiv.innerHTML += `<button onclick="checkQuiz(${idx})" class="p-4 rounded-xl bg-white border border-vintage-border text-left font-medium text-vintage-textPrimary hover:bg-vintage-cardHover transition-all">${opt}</button>`;
+            });
+        }
+
+        function checkQuiz(selected) {
+            const q = quizData[currentQuiz];
+            const feedback = document.getElementById('quiz-feedback');
+            const feedbackText = document.getElementById('feedback-text');
+            feedback.classList.remove('hidden');
+            if (selected === q.correct) {
+                score += 10;
+                feedback.className = "p-4 rounded-xl text-sm font-medium flex items-center justify-between bg-emerald-100 text-emerald-800 border border-emerald-300";
+                feedbackText.innerText = "Benar sekali! Hebat.";
+            } else {
+                feedback.className = "p-4 rounded-xl text-sm font-medium flex items-center justify-between bg-rose-100 text-rose-800 border border-rose-300";
+                feedbackText.innerText = "Kurang tepat. Jawaban yang benar adalah: " + q.options[q.correct];
+            }
+            document.getElementById('quiz-score-text').innerText = `Skor: ${score}`;
+        }
+
+        function nextQuestion() {
+            currentQuiz++;
+            if (currentQuiz < quizData.length) {
+                loadQuizQuestion();
+            } else {
+                document.getElementById('quiz-content').innerHTML = `<div class="text-center py-8 space-y-4"><h3 class="font-serif text-2xl font-bold text-vintage-brown">Kuis Selesai!</h3><p class="text-vintage-textSecondary">Total skor akhir Anda adalah <span class="font-bold text-vintage-brown">${score}</span></p><button onclick="initQuiz()" class="px-5 py-2.5 bg-vintage-brown text-white rounded-xl text-sm font-semibold">Ulangi Kuis</button></div>`;
+                document.getElementById('quiz-feedback').classList.add('hidden');
+            }
+        }
+
+        function deleteStory(id) {
+            stories = stories.filter(s => s.id !== id);
+            localStorage.setItem('tuntang_stories', JSON.stringify(stories));
+            renderStories();
+        }
+
+        function resetAllData() {
+            if (confirm("Reset seluruh data cerita ke awal?")) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+
+        function startPresentationMode() {
+            alert("Mode PPT Interaktif sedang disiapkan pada pembaruan berikutnya!");
+        }
+
+        function openAddStoryModal() {
+            const title = prompt("Judul Cerita Baru:");
+            if (!title) return;
+            const year = prompt("Tahun (contoh: 1920):", "1920");
+            const desc = prompt("Deskripsi singkat sejarah:");
+            if (title && year && desc) {
+                stories.push({ id: Date.now(), title, year: parseInt(year), era: "1900s", desc, img: "" });
+                localStorage.setItem('tuntang_stories', JSON.stringify(stories));
+                renderStories();
+            }
+        }
+
+        function toggleSearchModal() {
+            const keyword = prompt("Cari arsip berdasarkan kata kunci:");
+            if (keyword) {
+                alert("Fitur pencarian aktif untuk: " + keyword);
+            }
+        }
+
+        function saveHeroData() {
+            // Auto save dummy
+        }
+
+        window.onload = renderStories;
+    </script>
+</body>
+</html>
